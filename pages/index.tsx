@@ -12,7 +12,7 @@ import { Container } from '../styles/Game.styles'
 export default function Game() {
   const router = useRouter()
   const [qtdDoors, setQteDoors] =useState(1)
-  const [giftDoor, setGiftDoor] =useState<number | undefined>(1)
+  const [giftDoor, setGiftDoor] =useState<number | undefined>(undefined)
 
   function getDoorsPath(){
     return `/select-doors/${qtdDoors}/` + (giftDoor || '') 

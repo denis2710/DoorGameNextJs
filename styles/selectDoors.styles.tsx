@@ -18,8 +18,17 @@ export const DoorsArea = tw.div`
   
 `
 
+export const StatusMessageArea = tw.div`
+  flex
+  flex-1
+  items-center
+  justify-center
+`
 export const ResetArea = tw.div`
   flex
   justify-center
+  items-center
+  flex-col
+  gap-4
 
 `

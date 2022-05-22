@@ -9,15 +9,15 @@ interface DoorProps {
 }
 
 
-const Door = ({door, onOpen, onSelect}: DoorProps) => { 
+const Door = ({door, onOpen}: DoorProps) => { 
 
   return(
     <Container>
       <Frame selected={door.selected} >
         {!door.opened && (
-          <DoorArea onClick={onSelect}>
+          <DoorArea onClick={onOpen}>
             <Number selected={door.selected}>{door.number}</Number>
-            <Handle onClick={onOpen} selected={door.selected}/>
+            <Handle selected={door.selected}/>
           </DoorArea>
         )}
         {door.opened && door.hasGift && (

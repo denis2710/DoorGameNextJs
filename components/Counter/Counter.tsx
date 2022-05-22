@@ -13,7 +13,7 @@ interface CounterProps {
 }
 
 const Counter = ({title, currentValue, onAdd, onSub, mayDisable, disableMessage, onDisable, onEnable}:CounterProps) => {
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(mayDisable);
 
   function toggleEnable(){
     if(isDisabled){
@@ -28,7 +28,7 @@ const Counter = ({title, currentValue, onAdd, onSub, mayDisable, disableMessage,
     <Container>
         {mayDisable && (
           <DisableArea>
-            <input id="disableButton" type="checkbox" onChange={() => toggleEnable() } />
+            <input id="disableButton" type="checkbox" checked={isDisabled} onChange={() => toggleEnable() } />
             <DisableMessage htmlFor="disableButton" >{disableMessage}</DisableMessage>
           </DisableArea>
         )}

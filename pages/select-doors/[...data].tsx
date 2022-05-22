@@ -5,12 +5,13 @@ import { Button } from '../../components/Button'
 import { Door } from '../../components/Door'
 import { createDoors } from '../../functions/portas'
 import { DoorModel } from '../../model/door'
-import { Container, DoorsArea, ResetArea } from '../../styles/selectDoors.styles'
+import { Container, DoorsArea, ResetArea, StatusMessageArea } from '../../styles/selectDoors.styles'
 
 export default function SelectDoors() {
   const router = useRouter()
 
   const [doors, setDoors] = useState<DoorModel[]>([])
+  const [statusMessage, setStatusMessage] = useState('')
   const [atempt, setAtempt] = useState(1)
 
 
@@ -23,6 +24,7 @@ export default function SelectDoors() {
     if(router?.query?.data){
  
       qtd = +router?.query?.data[0]
+
       selected = +router?.query?.data[1] || undefined
       doorsCreated = createDoors({qtd, selected})
       
@@ -33,6 +35,7 @@ export default function SelectDoors() {
   }, [router?.query])
 
   function selectDoor(door: DoorModel){
+    
     const newDoors = [...doors]; 
 
     newDoors.map(d => (
@@ -40,6 +43,7 @@ export default function SelectDoors() {
     ))
 
     setDoors(newDoors)
+    
   }
 
   function openDoor(door: DoorModel) {
@@ -59,9 +63,10 @@ export default function SelectDoors() {
 
     setDoors(newDoors)
     setAtempt(atempt+1)
+    setStatusMessage(`You already tryed ${atempt} door${atempt > 1 ? 's' : ''}.`)
 
     if(door.hasGift){
-      console.log(`You won with ${atempt} atempts!`)
+      setStatusMessage(`You won with ${atempt} of ${doors.length} atempt${atempt > 1 ? 's' : ''}.`)
     }
 
   }
@@ -73,13 +78,14 @@ export default function SelectDoors() {
           <Door 
             key={door.number}
             onOpen={() => openDoor(door) }
-            onSelect={() =>  selectDoor(door)}
+            onSelect={() => selectDoor(door)}
             door={door}
           />
         )}
       </DoorsArea>
       <ResetArea>
-          <Button onClick={() => router.push("/game")}>Reset Game</Button>
+          <StatusMessageArea>{statusMessage}</StatusMessageArea>
+          <Button onClick={() => router.push("/")}>Reset Game</Button>
       </ResetArea>
     </Container>
   )
