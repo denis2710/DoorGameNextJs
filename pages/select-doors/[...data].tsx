@@ -12,7 +12,8 @@ export default function SelectDoors() {
 
   const [doors, setDoors] = useState<DoorModel[]>([])
   const [statusMessage, setStatusMessage] = useState('')
-  const [atempt, setAtempt] = useState(1)
+  const [wonPercent, setWonPercent] = useState<string | undefined>()
+  const [attempt, setattempt] = useState(1)
 
 
   useEffect(() => {
@@ -48,6 +49,10 @@ export default function SelectDoors() {
 
   function openDoor(door: DoorModel) {
 
+    if(wonPercent){
+      return 
+    }
+
     if(!door.selected){ 
       return selectDoor(door)
     }
@@ -62,12 +67,27 @@ export default function SelectDoors() {
     })
 
     setDoors(newDoors)
-    setAtempt(atempt+1)
-    setStatusMessage(`You already tryed ${atempt} door${atempt > 1 ? 's' : ''}.`)
+    setattempt(attempt+1)
+    
+    setStatusMessage(`You already tryed ${attempt} door${attempt > 1 ? 's' : ''}.`)
 
     if(door.hasGift){
-      setStatusMessage(`You won with ${atempt} of ${doors.length} atempt${atempt > 1 ? 's' : ''}.`)
+      const atemptsToUse =  (doors.length + 1) - (attempt);
+      const luckPercentage =  ((atemptsToUse / doors.length) * 100).toFixed()
+
+      setWonPercent(luckPercentage)
+      setStatusMessage(`${luckPercentage}% of luck.
+       You won with ${attempt} of ${doors.length} attempt${attempt > 1 ? 's' : ''}.`)
     }
+
+  }
+
+  function getStatusClass(){ 
+
+    if(wonPercent){
+      return +wonPercent > 50 ?  'animated tada': 'badwon'
+    }
+    return ''
 
   }
 
@@ -84,7 +104,7 @@ export default function SelectDoors() {
         )}
       </DoorsArea>
       <ResetArea>
-          <StatusMessageArea>{statusMessage}</StatusMessageArea>
+          <StatusMessageArea className={getStatusClass()} >{statusMessage}</StatusMessageArea>
           <Button onClick={() => router.push("/")}>Reset Game</Button>
       </ResetArea>
     </Container>

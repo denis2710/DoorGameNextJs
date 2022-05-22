@@ -42,6 +42,7 @@ export const DoorArea = tw.div`
   bg-amber-700
   items-center
   p-4
+  
 `
 
 

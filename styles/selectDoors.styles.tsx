@@ -15,6 +15,8 @@ export const DoorsArea = tw.div`
   flex-row
   align-items
   justify-center 
+
+  mb-40
   
 `
 
@@ -30,5 +32,13 @@ export const ResetArea = tw.div`
   items-center
   flex-col
   gap-4
+
+  
+  bg-gray-900
+  bottom-0
+  w-full
+  p-4
+  fixed
+  z-40
 
 `
